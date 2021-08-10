@@ -1,0 +1,89 @@
+
+body {
+    background-color: black;
+    display: flexbox;
+    margin: 0;
+    max-height: 600px;
+}
+
+#canvas {
+    background-color: #861c23;
+    margin:auto;
+    position:sticky;
+}
+
+p {
+    color: white;
+    font-family: 'Codystar', cursive;
+    font-weight: bolder;
+    font-size: 40px;
+    margin: -2px;
+    text-align: center;
+    position:relative;
+}
+.sunglasses {
+    width: 90px;
+    height: 35px;
+    margin: -2px;
+    padding: 0px;
+    
+}
+.star {
+    width: 50px;
+    height: 35px;
+    margin: -2px;
+    padding:0px;
+}
+.velvet-rope1 {
+    width: 50px;
+    height: 35px;
+    margin: -2px;
+    padding: 0px;
+    text-align: left;
+}
+.velvet-rope2 {
+    width: 50px;
+    height: 35px;
+    margin: -2px;
+    padding: 0px;
+    text-align: right;
+}
+#timer {
+    color:white;
+    font-family:  'Codystar', cursive;
+    justify-content: left;
+    font-size: 30px;
+}
+#span1 {
+    color: #fbd100;
+    font-family:  'Codystar', cursive;
+    justify-content: left;
+    font-size: 30px;
+}
+#span2 {
+    color: #fbd100;
+    font-family:  'Codystar', cursive;
+    justify-content: right;
+    font-size: 30px;
+}   
+#start-game {
+    background-color:#fbd100;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 6px 4px;
+    cursor: pointer;
+    border-radius: 12px;
+    
+}
+#score {
+    color: white;
+    font-family: 'Codystar', cursive;
+    justify-content: right;
+    font-size: 30px;
+}
+
