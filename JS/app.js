@@ -99,6 +99,13 @@ class Photographer {
 }
 const photographer1 = new Photographer()
 
+
+
+
+
+
+
+
 function renderPhotographer() {
     photographer1.movingForward = (keys[38])
     //console.log("moving forward") //up arrow
