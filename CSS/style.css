@@ -1,6 +1,6 @@
 
 body {
-    background-color: black;
+    background-color: #861c23;
     display: flexbox;
     margin: 0;
     max-height: 600px;
@@ -14,6 +14,7 @@ p {
     text-align: center;
     position:relative;
 }
+
 #photographer {
     display: none;
 }
@@ -23,6 +24,19 @@ p {
 #starlet2 {
     display: none;
 }
+#starlet3 {
+    display: none;
+}
+#securityGuard {
+    display: none;
+}
+#singingStarlet {
+    display: none;
+}
+#angryStarlet {
+    display: none;
+}
+
 .sunglasses {
     width: 90px;
     height: 35px;
