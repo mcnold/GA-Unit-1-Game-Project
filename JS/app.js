@@ -86,17 +86,22 @@ class Photographer {
         }
         if(this.x < this.radius){
             this.x = canvas.width
+
         }
         if(this.x > canvas.width){
             this.x = this.radius
+
         }
         if(this.y < this.radius) {
             this.y = canvas.height
+ 
         }
         if(this.y > canvas.height){
             this.y = this.radius
+
         }
-        
+        this.fbx = this.x+15
+        this.fby = this.y+30
         this.velx *= 0.99
         this.vely *= 0.99
         this.x -= this.velx
@@ -317,7 +322,9 @@ function renderStarlets() {
         for (let i = 0; i < starletsArray.length; i++){
             starletsArray[i].updateStar1()
             starletsArray[i].updateStar2()
-            starletsArray[i].update
+            starletsArray[i].updateSecurityGuard()
+            starletsArray[i].updateSingingStarlet()
+            starletsArray[i].updateAngryStarlet()
         }
     }
     requestAnimationFrame(renderStarlets)
