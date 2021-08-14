@@ -4,6 +4,7 @@ body {
     display: flexbox;
     margin: 0;
     max-height: 600px;
+    color: white;
 }
 p {
     color: white;
