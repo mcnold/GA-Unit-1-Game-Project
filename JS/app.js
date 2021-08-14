@@ -100,7 +100,7 @@ class Photographer {
             this.y = this.radius
 
         }
-        this.fbx = this.x+15
+        this.fbx = this.x+17
         this.fby = this.y+30
         this.velx *= 0.99
         this.vely *= 0.99
@@ -118,7 +118,7 @@ class Flashbulbs {
         this.y = photographer1.fby
         this.angle = angle
         this.height = 6
-        this.width = 20
+        this.width = 12
         this.speed = 5
         this.velx = 0
         this.vely = 0
@@ -137,12 +137,12 @@ class Flashbulbs {
 class Star1 {
     constructor() {
         this.starlet1=document.querySelector('#starlet1')
-        this.width = 80
-        this.height = 100
+        this.width = 140
+        this.height = 160
         this.visible = true
         this.x = Math.floor(Math.random() * canvas.width)
         this.y = Math.floor(Math.random() * canvas.height)
-        this.speed = 1
+        this.speed = 0.3
         this.radius = 20
         this.angle = Math.floor(Math.random() * 359)
         this.img = new Image()
@@ -170,11 +170,12 @@ class Star1 {
 class Star2 {
     constructor() {
         this.starlet2=document.querySelector('#starlet2')
-        this.width = 80
-        this.height = 100
+        this.width = 160
+        this.height = 170
         this.visible = true
         this.x = Math.floor(Math.random() * canvas.width)
         this.y = Math.floor(Math.random() * canvas.height)
+        this.speed = 0.4
         this.radius = 20
         this.angle = Math.floor(Math.random() * 359)
         this.img = new Image()
@@ -207,6 +208,7 @@ class SecurityGuard {
         this.visible = true
         this.x = Math.floor(Math.random() * canvas.width)
         this.y = Math.floor(Math.random() * canvas.height)
+        this.speed = 0.5
         this.radius = 20
         this.angle = Math.floor(Math.random() * 359)
         this.img = new Image()
@@ -233,11 +235,12 @@ class SecurityGuard {
 class SingingStarlet {
     constructor() {
         this.singingStarlet=document.querySelector('#singingStarlet')
-        this.width = 80
-        this.height = 100
+        this.width = 140
+        this.height = 160
         this.visible = true
         this.x = Math.floor(Math.random() * canvas.width)
         this.y = Math.floor(Math.random() * canvas.height)
+        this.speed = 0.5
         this.radius = 20
         this.angle = Math.floor(Math.random() * 359)
         this.img = new Image()
@@ -265,10 +268,11 @@ class AngryStarlet {
     constructor() {
         this.angryStarlet=document.querySelector('#angryStarlet')
         this.width = 80
-        this.height = 100
+        this.height = 120
         this.visible = true
         this.x = Math.floor(Math.random() * canvas.width)
         this.y = Math.floor(Math.random() * canvas.height)
+        this.speed = .3
         this.radius = 20
         this.angle = Math.floor(Math.random() * 359)
         this.img = new Image()
@@ -293,43 +297,61 @@ class AngryStarlet {
     }
 }
 const celebrity1 = new Star1()
+const celebrity11 = new Star1()
 const celebrity2 = new Star2()
+const celebrity22 = new Star2()
 const securityMan1 = new SecurityGuard()
+const securityMan2 = new SecurityGuard()
 const singerNice = new SingingStarlet()
 const singerAngry = new AngryStarlet()
 starletsArray.push(celebrity1)
+starletsArray.push(celebrity11)
 starletsArray.push(celebrity2)
+starletsArray.push(celebrity22)
 starletsArray.push(securityMan1)
+starletsArray.push(securityMan2)
 starletsArray.push(singerNice)
 starletsArray.push(singerAngry)
 
 console.log(starletsArray)
 
 function renderStarlets() {
-    ctx.clearRect(0,0,canvas.width,canvas.height)
-    ctx.fillStyle = "#861c23"
-    celebrity1.updateStar1()
-    ctx.drawImage(celebrity1.img,celebrity1.x,celebrity1.y,celebrity1.width,celebrity1.height)
-    celebrity2.updateStar2()
-    ctx.drawImage(celebrity2.img,celebrity2.x,celebrity2.y,celebrity2.width,celebrity2.height)
-    securityMan1.updateSecurityGuard()
-    ctx.drawImage(securityMan1.img,securityMan1.x,securityMan1.y,securityMan1.width,securityMan1.height)
-    singerNice.updateSingingStarlet()
-    ctx.drawImage(singerNice.img,singerNice.x,singerNice.y,singerNice.width,singerNice.height)
-    singerAngry.updateAngryStarlet()
-    ctx.drawImage(singerAngry.img,singerAngry.x,singerAngry.y,singerAngry.width,singerAngry.height)
     if(starletsArray.length !== 0){
-        for (let i = 0; i < starletsArray.length; i++){
-            starletsArray[i].updateStar1()
-            starletsArray[i].updateStar2()
-            starletsArray[i].updateSecurityGuard()
-            starletsArray[i].updateSingingStarlet()
-            starletsArray[i].updateAngryStarlet()
-        }
+        for (let i = 0; i < 2; i++){
+            ctx.fillStyle = "#861c23"
+            celebrity1.updateStar1()
+            ctx.drawImage(celebrity1.img,celebrity1.x,celebrity1.y,celebrity1.width,celebrity1.height)
+            celebrity11.updateStar1()
+            ctx.drawImage(celebrity11.img,celebrity11.x,celebrity11.y,celebrity11.width,celebrity11.height)
+            celebrity2.updateStar2()
+            ctx.drawImage(celebrity2.img,celebrity2.x,celebrity2.y,celebrity2.width,celebrity2.height)
+            celebrity22.updateStar2()
+            ctx.drawImage(celebrity22.img,celebrity22.x,celebrity22.y,celebrity22.width,celebrity22.height)
+            securityMan1.updateSecurityGuard()
+            ctx.drawImage(securityMan1.img,securityMan1.x,securityMan1.y,securityMan1.width,securityMan1.height)
+            securityMan2.updateSecurityGuard()
+            ctx.drawImage(securityMan2.img,securityMan2.x,securityMan2.y,securityMan2.width,securityMan2.height)
+            singerNice.updateSingingStarlet()
+            ctx.drawImage(singerNice.img,singerNice.x,singerNice.y,singerNice.width,singerNice.height)
+            singerAngry.updateAngryStarlet()
+            ctx.drawImage(singerAngry.img,singerAngry.x,singerAngry.y,singerAngry.width,singerAngry.height)
+        
     }
-    requestAnimationFrame(renderStarlets)
+ //   ctx.clearRect(0,0,canvas.width,canvas.height)
+ //   ctx.fillStyle = "#861c23"
+ //   celebrity1.updateStar1()
+ //   ctx.drawImage(celebrity1.img,celebrity1.x,celebrity1.y,celebrity1.width,celebrity1.height)
+ //   celebrity2.updateStar2()
+ //   ctx.drawImage(celebrity2.img,celebrity2.x,celebrity2.y,celebrity2.width,celebrity2.height)
+ //   securityMan1.updateSecurityGuard()
+ //   ctx.drawImage(securityMan1.img,securityMan1.x,securityMan1.y,securityMan1.width,securityMan1.height)
+ //   singerNice.updateSingingStarlet()
+ //   ctx.drawImage(singerNice.img,singerNice.x,singerNice.y,singerNice.width,singerNice.height)
+ //   singerAngry.updateAngryStarlet()
+ //   ctx.drawImage(singerAngry.img,singerAngry.x,singerAngry.y,singerAngry.width,singerAngry.height)
+ //       requestAnimationFrame(renderStarlets)
 }
-
+}
 function renderPhotographer() {
     photographer1.movingForward = (keys[38])
     //console.log("moving forward") //up arrow
@@ -345,7 +367,8 @@ function renderPhotographer() {
     ctx.fillStyle = "#861c23"
     photographer1.updatePhotographer()
     ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
-    renderFlashbulbs() 
+    renderFlashbulbs()
+    renderStarlets() 
     requestAnimationFrame(renderPhotographer)
 
 }   
