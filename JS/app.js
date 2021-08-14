@@ -1,8 +1,6 @@
 //console.log("test to connect") - Connected
 
 let keys = []
-let move = 5
-let FPS = 30
 const flashbulbsArray = []
 const starletsArray = []
 const canvas= document.querySelector("#canvas")
@@ -12,6 +10,9 @@ const ctx = canvas.getContext('2d')
 ctx.fillStyle = "#861c23"
 ctx.strokeColor = "white"
 ctx.fillRect(0,0,canvas.width, canvas.height);
+let score = 0
+let lives = 3
+let wallet = 0
 /*
 const photographer = document.querySelector('#photographer')
 ctx.drawImage(photographer,1000,300,75,100)
@@ -66,6 +67,7 @@ class Photographer {
         this.img.src="Images/original_size-removebg-preview.png"
         this.fbx = this.x//(canvas.width/2 + 15)
         this.fby = this.y//canvas.height/2
+        this.wallet = wallet
         console.log(this)
     }
     draw() {
@@ -135,16 +137,19 @@ class Flashbulbs {
 }
 
 class Star1 {
-    constructor() {
+    constructor(x,y,radius,level,collisionRadius) {
         this.starlet1=document.querySelector('#starlet1')
         this.width = 140
         this.height = 160
         this.visible = true
-        this.x = Math.floor(Math.random() * canvas.width)
-        this.y = Math.floor(Math.random() * canvas.height)
+        this.x = x || Math.floor(Math.random() * canvas.width)
+        this.y = y || Math.floor(Math.random() * canvas.height)
         this.speed = 0.3
-        this.radius = 20
+        this.radius = radius || 20
         this.angle = Math.floor(Math.random() * 359)
+        this.level = level || 1
+        this.collisionRadius = collisionRadius || 18
+        this.wallet = 5000
         this.img = new Image()
         this.img.src="Images//21_1_22-removebg-preview.png"
 
@@ -178,6 +183,7 @@ class Star2 {
         this.speed = 0.4
         this.radius = 20
         this.angle = Math.floor(Math.random() * 359)
+        this.wallet = 10000
         this.img = new Image()
         this.img.src="Images/36_1_41-removebg-preview.png"
     }
@@ -211,6 +217,7 @@ class SecurityGuard {
         this.speed = 0.5
         this.radius = 20
         this.angle = Math.floor(Math.random() * 359)
+        this.wallet = -2000
         this.img = new Image()
         this.img.src="Images/man_security-removebg-preview.png"
     }
@@ -243,6 +250,7 @@ class SingingStarlet {
         this.speed = 0.5
         this.radius = 20
         this.angle = Math.floor(Math.random() * 359)
+        this.wallet = 3000
         this.img = new Image()
         this.img.src="Images/original_size-removebg-preview (1).png"
     }
@@ -275,6 +283,7 @@ class AngryStarlet {
         this.speed = .3
         this.radius = 20
         this.angle = Math.floor(Math.random() * 359)
+        this.wallet = wallet-wallet
         this.img = new Image()
         this.img.src="Images/Singing_Actress-removebg-preview.png"
     }
@@ -373,6 +382,16 @@ function renderPhotographer() {
 
 }   
 
+function circleCollsion(p1x, p1y, r1, p2x, p2y, r2){
+    let radiusSum = r1 + r2
+    let xDiff = p1x - p2x
+    let yDiff = p1y - p2y
+    if (radiusSum > Math.sqrt((xDiff * yDiff) +(yDiff * yDiff))){
+        return true
+    } else {
+        return false
+    }
+}
 function renderFlashbulbs() {
     if(flashbulbsArray.length !== 0){
         for (let i = 0; i < flashbulbsArray.length; i++){
@@ -381,6 +400,25 @@ function renderFlashbulbs() {
         }
     }
 }
+function gameOver() {
+    if(lives <= 0){
+        photographer1.visible=false
+        ctx.fillStyle = "white"
+        ctx.font = "40px Codystar, cursive"
+        ctx.fillText("GAME OVER", canvas.width / 2 - 150, canvas.height / 2)
+    }
+}
+/*
+if(starletsArray.length !== 0){
+    for(let j = 0; j < starletsArray.length; j++){
+        if(circleCollsion(photographer1.x, photographer1.y, 11, starletsArray[j].x, starletsArray[j].y, starletsArray[j].collisionRadius)){
+ //           photographer1.x = (canvas.width - this.width) / 2
+  //          photographer1.y = (canvas.height - this.height) / 2
+            starletsArray[j].body.style.border-color=
+        }
+    }
+}
+*/
 function startGame() {
  
     //console.log(photographer1.velx)

@@ -5,22 +5,33 @@ body {
     margin: 0;
     max-height: 600px;
     color: white;
+
 }
+
 p {
     color: white;
     font-family: 'Codystar', cursive;
     font-weight: bolder;
-    font-size: 40px;
+    font-size: 40 px;
     margin: -2px;
     text-align: center;
     position:relative;
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    background-color: black;
 }
-
+#dir1 {
+    color: black;
+    font-family: monospace;
+    font-size: 20px;
+}
 #photographer {
     display: none;
 }
 #starlet1 {
     display: none;
+    border-color: white;
 }
 #starlet2 {
     display: none;
