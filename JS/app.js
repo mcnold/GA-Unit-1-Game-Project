@@ -433,12 +433,15 @@ function peopleCollision() {
     if(starletsArray.length !== 0){
         for(let i = 0; i < starletsArray.length; i++){
             if(circleCollsion(photographer1.x, photographer1.y, photographer1.collisionRadius, starletsArray[i].x, starletsArray[i].y, starletsArray[i].collisionRadius)){
-                photgrapher1.lives -= 1
+                photographer1.lives -= 1
                 updateLives()
                 alert("You were thrown in jail for harassment!")
                 photographer1.x = (canvas.width-this.width)/2
                 photographer1.y = (canvas.height-this.height)/2
-                photographer1.renderPhotographer()
+                ctx.clearRect(0,0,canvas.width,canvas.height)
+                ctx.fillStyle = "#861c23"
+                photographer1.updatePhotographer()
+                ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
 
                 //Need to update collision radius, find out why it only works at some times. Photographer will not reload.
             }
@@ -475,10 +478,9 @@ function startGame() {
 }
 console.log(photographer1)
 photographer1.img.onload=()=>{
-    document.querySelector('#start-game').addEventListener('click',)
     startGame()
 }
-
+document.querySelector('#start-game').addEventListener('click', photographer1.img.onload())
  //  startGame()
 
 
