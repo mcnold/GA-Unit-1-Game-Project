@@ -124,6 +124,7 @@ class Flashbulbs {
         this.height = 6
         this.width = 12
         this.speed = 5
+        this.collisionRadius = 9
         this.velx = 0
         this.vely = 0
     }
@@ -396,7 +397,7 @@ function circleCollsion(p1x, p1y, r1, p2x, p2y, r2){
     let radiusSum = r1 + r2
     let xDiff = p1x - p2x
     let yDiff = p1y - p2y
-    if (radiusSum > Math.sqrt((xDiff * xDiff) +(yDiff * yDiff))){
+    if (radiusSum > Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))){
         return true
     } else {
         return false
@@ -420,8 +421,9 @@ function updateWallet() {
     updateWalAmt = photographer1.wallet //this isn't working, why is it not updating the span visibly?
 }
 function gameOver() {
-    if(lives <= 0){
+    if(photographer1.lives === 0){
         photographer1.visible=false
+        ctx.clearRect(0,0,canvas.width,canvas.height)
         ctx.fillStyle = "white"
         ctx.font = "40px Codystar, cursive"
         ctx.fillText("GAME OVER", canvas.width / 2 - 150, canvas.height / 2)
@@ -430,16 +432,13 @@ function gameOver() {
 function peopleCollision() {
     if(starletsArray.length !== 0){
         for(let i = 0; i < starletsArray.length; i++){
-            if(circleCollsion(photographer1.x, photographer1.y, 11, starletsArray[i].x, starletsArray[i].y, starletsArray[i].collisionRadius)){
-                photgrapher1.lives-=1
+            if(circleCollsion(photographer1.x, photographer1.y, photographer1.collisionRadius, starletsArray[i].x, starletsArray[i].y, starletsArray[i].collisionRadius)){
+                photgrapher1.lives -= 1
                 updateLives()
                 alert("You were thrown in jail for harassment!")
-                ctx.clearRect(0,0,canvas.width,canvas.height)
-                ctx.fillStyle = "#861c23"   
                 photographer1.x = (canvas.width-this.width)/2
                 photographer1.y = (canvas.height-this.height)/2
-                photographer1.updatePhotographer()
-                ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
+                photographer1.renderPhotographer()
 
                 //Need to update collision radius, find out why it only works at some times. Photographer will not reload.
             }
@@ -449,7 +448,7 @@ function peopleCollision() {
 function flashBulbCollision() {
     if(flashbulbsArray !== 0){
         for(let i = 0; i < flashbulbsArray.length; i++){
-            if(circleCollsion(flashbulbsArray[i].x, flashbulbsArray[i].y,11,starletsArray[i].x,starletsArray[i].y, starletsArray[i].collisionRadius)){
+            if(circleCollsion(flashbulbsArray[i].x, flashbulbsArray[i].y,flashbulbsArray[i].collisionRadius,starletsArray[i].x,starletsArray[i].y, starletsArray[i].collisionRadius)){
                 starletsArray[i].speed=0
                 ctx.strokeStyle="white" 
                 ctx.strokeRect(starletsArray[i].x-2, starletsArray[i].y-2, starletsArray[i].width+2, starletsArray[i].height+2)
@@ -464,7 +463,6 @@ function flashBulbCollision() {
 }
 
 function startGame() {
- 
     //console.log(photographer1.velx)
     photographer1.rotate(0)
     //console.log(photographer1.velx)
@@ -477,7 +475,7 @@ function startGame() {
 }
 console.log(photographer1)
 photographer1.img.onload=()=>{
-   
+    document.querySelector('#start-game').addEventListener('click',)
     startGame()
 }
 
