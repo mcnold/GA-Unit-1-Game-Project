@@ -49,20 +49,22 @@ document.body.addEventListener('keyup', function(e) {
     })
 
 class Photographer {
-    constructor(){
+    constructor(x,y,radius,collisionRadius){
         this.photographer=document.querySelector('#photographer')
         this.width = 120
         this.height = 140
         this.visible = true
-        this.x = (canvas.width-this.width)/2
-        this.y = (canvas.height-this.height)/2
+        this.x = x || (canvas.width-this.width)/2
+        this.y = y || (canvas.height-this.height)/2
         this.movingForward = false
         this.speed = 0.1
         this.rotateSpeed = .001
         this.velx = 0
         this.vely = 0
         this.radius = 15
+        this.collisionRadius = collisionRadius || 11
         this.angle = 0
+        this.lives = lives
         this.img = new Image()
         this.img.src="Images/original_size-removebg-preview.png"
         this.fbx = this.x//(canvas.width/2 + 15)
@@ -137,7 +139,7 @@ class Flashbulbs {
 }
 
 class Star1 {
-    constructor(x,y,radius,level,collisionRadius) {
+    constructor(x,y,radius,collisionRadius) {
         this.starlet1=document.querySelector('#starlet1')
         this.width = 140
         this.height = 160
@@ -147,8 +149,7 @@ class Star1 {
         this.speed = 0.3
         this.radius = radius || 20
         this.angle = Math.floor(Math.random() * 359)
-        this.level = level || 1
-        this.collisionRadius = collisionRadius || 18
+        this.collisionRadius = collisionRadius || 15
         this.wallet = 5000
         this.img = new Image()
         this.img.src="Images//21_1_22-removebg-preview.png"
@@ -173,15 +174,16 @@ class Star1 {
     }
 }
 class Star2 {
-    constructor() {
+    constructor(x,y,radius,collisionRadius) {
         this.starlet2=document.querySelector('#starlet2')
         this.width = 160
         this.height = 170
         this.visible = true
-        this.x = Math.floor(Math.random() * canvas.width)
-        this.y = Math.floor(Math.random() * canvas.height)
+        this.x = x || Math.floor(Math.random() * canvas.width)
+        this.y = y || Math.floor(Math.random() * canvas.height)
         this.speed = 0.4
         this.radius = 20
+        this.collisionRadius = collisionRadius || 15
         this.angle = Math.floor(Math.random() * 359)
         this.wallet = 10000
         this.img = new Image()
@@ -207,15 +209,16 @@ class Star2 {
 }
 
 class SecurityGuard {
-    constructor() {
+    constructor(x,y,radius,collisionRadius) {
         this.securityGuard=document.querySelector('#securityGuard')
         this.width = 80
         this.height = 100
         this.visible = true
-        this.x = Math.floor(Math.random() * canvas.width)
-        this.y = Math.floor(Math.random() * canvas.height)
+        this.x = x || Math.floor(Math.random() * canvas.width)
+        this.y = y || Math.floor(Math.random() * canvas.height)
         this.speed = 0.5
         this.radius = 20
+        this.collisionRadius = collisionRadius || 15
         this.angle = Math.floor(Math.random() * 359)
         this.wallet = -2000
         this.img = new Image()
@@ -240,15 +243,16 @@ class SecurityGuard {
     }
 }
 class SingingStarlet {
-    constructor() {
+    constructor(x,y,radius,collisionRadius) {
         this.singingStarlet=document.querySelector('#singingStarlet')
         this.width = 140
         this.height = 160
         this.visible = true
-        this.x = Math.floor(Math.random() * canvas.width)
-        this.y = Math.floor(Math.random() * canvas.height)
+        this.x = x || Math.floor(Math.random() * canvas.width)
+        this.y = y || Math.floor(Math.random() * canvas.height)
         this.speed = 0.5
         this.radius = 20
+        this.collisionRadius = collisionRadius || 15
         this.angle = Math.floor(Math.random() * 359)
         this.wallet = 3000
         this.img = new Image()
@@ -273,15 +277,16 @@ class SingingStarlet {
     }
 }
 class AngryStarlet {
-    constructor() {
+    constructor(x,y,radius,collisionRadius) {
         this.angryStarlet=document.querySelector('#angryStarlet')
         this.width = 80
         this.height = 120
         this.visible = true
-        this.x = Math.floor(Math.random() * canvas.width)
-        this.y = Math.floor(Math.random() * canvas.height)
+        this.x = x || Math.floor(Math.random() * canvas.width)
+        this.y = y || Math.floor(Math.random() * canvas.height)
         this.speed = .3
         this.radius = 20
+        this.collisionRadius = collisionRadius || 15
         this.angle = Math.floor(Math.random() * 359)
         this.wallet = wallet-wallet
         this.img = new Image()
@@ -344,7 +349,10 @@ function renderStarlets() {
             ctx.drawImage(singerNice.img,singerNice.x,singerNice.y,singerNice.width,singerNice.height)
             singerAngry.updateAngryStarlet()
             ctx.drawImage(singerAngry.img,singerAngry.x,singerAngry.y,singerAngry.width,singerAngry.height)
-        
+ //           ctx.rect(singerAngry.x, singerAngry.y, singerAngry.width, singerAngry.height)
+ //           ctx.strokeStyle="white"
+ //           ctx.stroke()
+  
     }
  //   ctx.clearRect(0,0,canvas.width,canvas.height)
  //   ctx.fillStyle = "#861c23"
@@ -379,6 +387,8 @@ function renderPhotographer() {
     renderFlashbulbs()
     renderStarlets() 
     requestAnimationFrame(renderPhotographer)
+    peopleCollision()
+    flashBulbCollision()
 
 }   
 
@@ -386,7 +396,7 @@ function circleCollsion(p1x, p1y, r1, p2x, p2y, r2){
     let radiusSum = r1 + r2
     let xDiff = p1x - p2x
     let yDiff = p1y - p2y
-    if (radiusSum > Math.sqrt((xDiff * yDiff) +(yDiff * yDiff))){
+    if (radiusSum > Math.sqrt((xDiff * xDiff) +(yDiff * yDiff))){
         return true
     } else {
         return false
@@ -400,6 +410,15 @@ function renderFlashbulbs() {
         }
     }
 }
+
+function updateLives() {
+    let updatelife = document.querySelector('#span1')
+    updatelife = photographer1.lives //this isn't working, why is it not updating the span visibly?
+}
+function updateWallet() {
+    let updateWalAmt = document.querySelector('#span2')
+    updateWalAmt = photographer1.wallet //this isn't working, why is it not updating the span visibly?
+}
 function gameOver() {
     if(lives <= 0){
         photographer1.visible=false
@@ -408,17 +427,42 @@ function gameOver() {
         ctx.fillText("GAME OVER", canvas.width / 2 - 150, canvas.height / 2)
     }
 }
-/*
-if(starletsArray.length !== 0){
-    for(let j = 0; j < starletsArray.length; j++){
-        if(circleCollsion(photographer1.x, photographer1.y, 11, starletsArray[j].x, starletsArray[j].y, starletsArray[j].collisionRadius)){
- //           photographer1.x = (canvas.width - this.width) / 2
-  //          photographer1.y = (canvas.height - this.height) / 2
-            starletsArray[j].body.style.border-color=
+function peopleCollision() {
+    if(starletsArray.length !== 0){
+        for(let i = 0; i < starletsArray.length; i++){
+            if(circleCollsion(photographer1.x, photographer1.y, 11, starletsArray[i].x, starletsArray[i].y, starletsArray[i].collisionRadius)){
+                photgrapher1.lives-=1
+                updateLives()
+                alert("You were thrown in jail for harassment!")
+                ctx.clearRect(0,0,canvas.width,canvas.height)
+                ctx.fillStyle = "#861c23"   
+                photographer1.x = (canvas.width-this.width)/2
+                photographer1.y = (canvas.height-this.height)/2
+                photographer1.updatePhotographer()
+                ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
+
+                //Need to update collision radius, find out why it only works at some times. Photographer will not reload.
+            }
         }
     }
 }
-*/
+function flashBulbCollision() {
+    if(flashbulbsArray !== 0){
+        for(let i = 0; i < flashbulbsArray.length; i++){
+            if(circleCollsion(flashbulbsArray[i].x, flashbulbsArray[i].y,11,starletsArray[i].x,starletsArray[i].y, starletsArray[i].collisionRadius)){
+                starletsArray[i].speed=0
+                ctx.strokeStyle="white" 
+                ctx.strokeRect(starletsArray[i].x-2, starletsArray[i].y-2, starletsArray[i].width+2, starletsArray[i].height+2)
+                ctx.clearRect(starletsArray[i].x, starletsArray[i].y, starletsArray[i].width, starletsArray[i].height)
+                ctx.drawImage(starletsArray[i].img,starletsArray[i].x,starletsArray[i].y,starletsArray[i].width,starletsArray[i].height)
+                wallet = photographer1.wallet + starletsArray[i].wallet
+                updateWallet()
+                starletsArray[i].speed = 0.4   //need to debug this, only capturing at set times.
+            }
+        }
+    }
+}
+
 function startGame() {
  
     //console.log(photographer1.velx)
@@ -427,6 +471,8 @@ function startGame() {
     photographer1.updatePhotographer()
     //console.log(photographer1.velx)
     renderPhotographer()
+    wallet = 0
+    lives = 3
 
 }
 console.log(photographer1)
