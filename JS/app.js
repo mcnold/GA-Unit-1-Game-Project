@@ -69,7 +69,7 @@ class Photographer {
         this.img.src="Images/original_size-removebg-preview.png"
         this.fbx = this.x//(canvas.width/2 + 15)
         this.fby = this.y//canvas.height/2
-        this.wallet = wallet
+        this.wallet = 0
         console.log(this)
     }
     draw() {
@@ -313,16 +313,20 @@ class AngryStarlet {
 }
 const celebrity1 = new Star1()
 const celebrity11 = new Star1()
+const celebrity111 = new Star1()
 const celebrity2 = new Star2()
 const celebrity22 = new Star2()
+const celebrity222 = new Star2()
 const securityMan1 = new SecurityGuard()
 const securityMan2 = new SecurityGuard()
 const singerNice = new SingingStarlet()
 const singerAngry = new AngryStarlet()
 starletsArray.push(celebrity1)
 starletsArray.push(celebrity11)
+starletsArray.push(celebrity111)
 starletsArray.push(celebrity2)
 starletsArray.push(celebrity22)
+starletsArray.push(celebrity222)
 starletsArray.push(securityMan1)
 starletsArray.push(securityMan2)
 starletsArray.push(singerNice)
@@ -338,10 +342,14 @@ function renderStarlets() {
             ctx.drawImage(celebrity1.img,celebrity1.x,celebrity1.y,celebrity1.width,celebrity1.height)
             celebrity11.updateStar1()
             ctx.drawImage(celebrity11.img,celebrity11.x,celebrity11.y,celebrity11.width,celebrity11.height)
+            celebrity111.updateStar1()
+            ctx.drawImage(celebrity111.img, celebrity111.x,celebrity111.y,celebrity111.width,celebrity111.height)
             celebrity2.updateStar2()
             ctx.drawImage(celebrity2.img,celebrity2.x,celebrity2.y,celebrity2.width,celebrity2.height)
             celebrity22.updateStar2()
             ctx.drawImage(celebrity22.img,celebrity22.x,celebrity22.y,celebrity22.width,celebrity22.height)
+            celebrity222.updateStar2()
+            ctx.drawImage(celebrity222.img,celebrity222.x,celebrity222.y,celebrity222.width,celebrity222.height)
             securityMan1.updateSecurityGuard()
             ctx.drawImage(securityMan1.img,securityMan1.x,securityMan1.y,securityMan1.width,securityMan1.height)
             securityMan2.updateSecurityGuard()
@@ -459,15 +467,17 @@ function peopleCollision() {
 function flashBulbCollision() {
     if(flashbulbsArray !== 0){
         for(let i = 0; i < flashbulbsArray.length; i++){
-            if(circleCollsion(flashbulbsArray[i].x, flashbulbsArray[i].y,flashbulbsArray[i].collisionRadius,starletsArray[i].x,starletsArray[i].y, starletsArray[i].collisionRadius)){
-                starletsArray[i].speed=0
-                ctx.strokeStyle="white" 
-                ctx.strokeRect(starletsArray[i].x-2, starletsArray[i].y-2, starletsArray[i].width+2, starletsArray[i].height+2)
-                ctx.clearRect(starletsArray[i].x, starletsArray[i].y, starletsArray[i].width, starletsArray[i].height)
-                ctx.drawImage(starletsArray[i].img,starletsArray[i].x,starletsArray[i].y,starletsArray[i].width,starletsArray[i].height)
-                wallet = photographer1.wallet + starletsArray[i].wallet
-                updateWallet()
-                starletsArray[i].speed = 0.4   //need to debug this, only capturing at set times.
+            for(let j = 0; j < starletsArray.length; j++){
+                if(circleCollsion(flashbulbsArray[i].x, flashbulbsArray[i].y,flashbulbsArray[i].collisionRadius,starletsArray[j].x,starletsArray[j].y, starletsArray[j].collisionRadius)){
+                    starletsArray[j].speed=0
+                    ctx.strokeStyle="white" 
+                    ctx.strokeRect(starletsArray[j].x-2, starletsArray[j].y-2, starletsArray[j].width+2, starletsArray[j].height+2)
+                    ctx.clearRect(starletsArray[j].x, starletsArray[j].y, starletsArray[j].width, starletsArray[j].height)
+                    ctx.drawImage(starletsArray[j].img,starletsArray[j].x,starletsArray[j].y,starletsArray[j].width,starletsArray[j].height)
+                    photographer1.wallet += starletsArray[j].wallet
+                    updateWallet()
+                    starletsArray[j].speed = 0.3   //need to debug this, only capturing at set times.
+                }
             }
         }
     }
