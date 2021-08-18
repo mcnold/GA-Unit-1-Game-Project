@@ -414,11 +414,12 @@ function renderFlashbulbs() {
 
 function updateLives() {
     let updatelife = document.querySelector('#span1')
-    updatelife = photographer1.lives //this isn't working, why is it not updating the span visibly?
+    photographer1.lives -= 1
+    updatelife.innerHTML=`${photographer1.lives}` //this isn't working, why is it not updating the span visibly?
 }
 function updateWallet() {
     let updateWalAmt = document.querySelector('#span2')
-    updateWalAmt = photographer1.wallet //this isn't working, why is it not updating the span visibly?
+    updateWalAmt.innerHTML=`${photographer1.wallet}` //this isn't working, why is it not updating the span visibly?
 }
 function gameOver() {
     if(photographer1.lives === 0){
@@ -429,19 +430,26 @@ function gameOver() {
         ctx.fillText("GAME OVER", canvas.width / 2 - 150, canvas.height / 2)
     }
 }
+
+function winGame() {
+    if(photographer1.wallet===100000){
+        alert("Oh Snap! You have won the game. Congratulations!")
+        alert("Press the Start Button to Play Again.")
+    }
+
+}
 function peopleCollision() {
     if(starletsArray.length !== 0){
         for(let i = 0; i < starletsArray.length; i++){
             if(circleCollsion(photographer1.x, photographer1.y, photographer1.collisionRadius, starletsArray[i].x, starletsArray[i].y, starletsArray[i].collisionRadius)){
-                photographer1.lives -= 1
-                updateLives()
                 alert("You were thrown in jail for harassment!")
-                photographer1.x = (canvas.width-this.width)/2
-                photographer1.y = (canvas.height-this.height)/2
+                photographer1.x = 453 //(canvas.width-this.width)/2
+                photographer1.y = 324.5//(canvas.height-this.height)/2
                 ctx.clearRect(0,0,canvas.width,canvas.height)
                 ctx.fillStyle = "#861c23"
                 photographer1.updatePhotographer()
                 ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
+                updateLives()
 
                 //Need to update collision radius, find out why it only works at some times. Photographer will not reload.
             }
@@ -472,15 +480,16 @@ function startGame() {
     photographer1.updatePhotographer()
     //console.log(photographer1.velx)
     renderPhotographer()
-    wallet = 0
-    lives = 3
+    winGame()
+    gameOver()
+
 
 }
-console.log(photographer1)
+//console.log(photographer1)
 photographer1.img.onload=()=>{
-    startGame()
+   startGame()
 }
-document.querySelector('#start-game').addEventListener('click', photographer1.img.onload())
+//document.querySelector('#start-game').addEventListener('click', photographer1.img.onload()) Not working
  //  startGame()
 
 
