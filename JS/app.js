@@ -37,12 +37,14 @@ ctx.drawImage(starlet3, 400,300,120,140)
 console.log(starlet3)
 */
 document.body.addEventListener('keydown', function(e) {
+        e.stopPropagation()
         keys[e.keyCode] = true
-        console.log("keydown event loaded")
+       // console.log("keydown event loaded")
     })
 document.body.addEventListener('keyup', function(e) {
+        e.stopPropagation()
         keys[e.keyCode] = false
-        console.log("keyup event loaded")
+     //   console.log("keyup event loaded")
         if(e.keyCode===32){
             flashbulbsArray.push(new Flashbulbs(photographer1.angle))
         }
@@ -70,7 +72,7 @@ class Photographer {
         this.fbx = this.x//(canvas.width/2 + 15)
         this.fby = this.y//canvas.height/2
         this.wallet = 0
-        console.log(this)
+      //  console.log(this)
     }
     draw() {
         ctx.strokeStyle = this.strokeColor
@@ -289,7 +291,7 @@ class AngryStarlet {
         this.radius = 20
         this.collisionRadius = collisionRadius || 15
         this.angle = Math.floor(Math.random() * 359)
-        this.wallet = wallet-wallet
+        this.wallet = -5000
         this.img = new Image()
         this.img.src="Images/Singing_Actress-removebg-preview.png"
     }
@@ -332,7 +334,7 @@ starletsArray.push(securityMan2)
 starletsArray.push(singerNice)
 starletsArray.push(singerAngry)
 
-console.log(starletsArray)
+//console.log(starletsArray)
 
 function renderStarlets() {
     if(starletsArray.length !== 0){
@@ -395,9 +397,9 @@ function renderPhotographer() {
     ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
     renderFlashbulbs()
     renderStarlets() 
-    requestAnimationFrame(renderPhotographer)
     peopleCollision()
     flashBulbCollision()
+    requestAnimationFrame(renderPhotographer)
 
 }   
 
@@ -431,25 +433,27 @@ function updateWallet() {
 }
 function gameOver() {
     if(photographer1.lives === 0){
-        photographer1.visible=false
         ctx.clearRect(0,0,canvas.width,canvas.height)
-        ctx.fillStyle = "white"
-        ctx.font = "40px Codystar, cursive"
-        ctx.fillText("GAME OVER", canvas.width / 2 - 150, canvas.height / 2)
+        ctx.fillStyle = "#861c23"
+        gameOver.img = new Image()
+        gameOver.img.src="Images/pngaaa.com-763490.png"
+        ctx.drawImage(gameOver.img,(canvas.width-this.width)/2,(canvas.height-this.height)/2, 200, 150)
+        
+       
     }
 }
 
 function winGame() {
-    if(photographer1.wallet===100000){
-        alert("Oh Snap! You have won the game. Congratulations!")
-        alert("Press the Start Button to Play Again.")
+    if(photographer1.wallet >= 100000){
+       // console.log("Oh Snap! You have won the game. Congratulations!")
+       // console.log("Press the Start Button to Play Again.")
     }
 
 }
 function peopleCollision() {
     if(starletsArray.length !== 0){
         for(let i = 0; i < starletsArray.length; i++){
-            if(circleCollsion(photographer1.x, photographer1.y, photographer1.collisionRadius, starletsArray[i].x, starletsArray[i].y, starletsArray[i].collisionRadius)){
+            if(photographer1.lives > 0 &&(circleCollsion(photographer1.x, photographer1.y, photographer1.collisionRadius, starletsArray[i].x, starletsArray[i].y, starletsArray[i].collisionRadius))){
                 alert("You were thrown in jail for harassment!")
                 photographer1.x = 453 //(canvas.width-this.width)/2
                 photographer1.y = 324.5//(canvas.height-this.height)/2
@@ -476,7 +480,7 @@ function flashBulbCollision() {
                     ctx.drawImage(starletsArray[j].img,starletsArray[j].x,starletsArray[j].y,starletsArray[j].width,starletsArray[j].height)
                     photographer1.wallet += starletsArray[j].wallet
                     updateWallet()
-                    starletsArray[j].speed = 0.3   //need to debug this, only capturing at set times.
+                    starletsArray[j].speed = 0.1   //need to debug this, only capturing at set times.
                 }
             }
         }
@@ -484,23 +488,24 @@ function flashBulbCollision() {
 }
 
 function startGame() {
-    //console.log(photographer1.velx)
     photographer1.rotate(0)
-    //console.log(photographer1.velx)
     photographer1.updatePhotographer()
-    //console.log(photographer1.velx)
     renderPhotographer()
-    winGame()
-    gameOver()
-
 
 }
+
+
 //console.log(photographer1)
-photographer1.img.onload=()=>{
-   startGame()
-}
+document.querySelector('#start-game').addEventListener('click',(event)=>{
+        console.log(event)
+       console.log("button has been clicked!")
+        startGame()
+
+
+
+})
 //document.querySelector('#start-game').addEventListener('click', photographer1.img.onload()) Not working
- //  startGame()
+ //startGame()
 
 
 
