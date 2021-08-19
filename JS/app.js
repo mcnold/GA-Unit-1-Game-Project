@@ -404,7 +404,7 @@ function renderPhotographer() {
         peopleCollision()
         flashBulbCollision()
         requestAnimationFrame(renderPhotographer)
-    }else if(photographer1.lives > 0 && photographer1.wallet >= 1000000){
+    }else if(photographer1.lives > 0 && photographer1.wallet >= 1000    000){
         winGame()
     }
     else{
