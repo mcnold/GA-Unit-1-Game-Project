@@ -84,7 +84,9 @@ class Photographer {
     rotate(dir){
         this.angle += this.rotateSpeed * dir
      }
-    updatePhotographer(){
+    updatePhotographer(vx,vy){
+        this.velx = vx
+        this.vely = vy
         let radians = this.angle / Math.PI * 180
              if(this.movingForward===true) {
             this.velx += Math.cos(radians) * this.speed
@@ -393,13 +395,18 @@ function renderPhotographer() {
     }
     ctx.clearRect(0,0,canvas.width,canvas.height)
     ctx.fillStyle = "#861c23"
-    photographer1.updatePhotographer()
-    ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
-    renderFlashbulbs()
-    renderStarlets() 
-    peopleCollision()
-    flashBulbCollision()
-    requestAnimationFrame(renderPhotographer)
+    if(photographer1.lives > 0) {
+        photographer1.updatePhotographer(photographer1.velx,photographer1.vely)
+        ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
+        renderFlashbulbs()
+        renderStarlets() 
+        peopleCollision()
+        flashBulbCollision()
+    }else{
+        gameOver()
+    }
+        requestAnimationFrame(renderPhotographer)
+
 
 }   
 
@@ -433,11 +440,15 @@ function updateWallet() {
 }
 function gameOver() {
     if(photographer1.lives === 0){
-        ctx.clearRect(0,0,canvas.width,canvas.height)
+      photographer1.lives--
+     //   ctx.clearRect(0,0,canvas.width,canvas.height)
         ctx.fillStyle = "#861c23"
-        gameOver.img = new Image()
-        gameOver.img.src="Images/pngaaa.com-763490.png"
-        ctx.drawImage(gameOver.img,(canvas.width-this.width)/2,(canvas.height-this.height)/2, 200, 150)
+        let img = new Image()
+        img.src="Images/pngaaa.com-763490.png"
+        img.onload=()=>{
+            console.log("gameover called")
+            ctx.drawImage(img,(canvas.width)/2,(canvas.height)/2, 200, 150)}
+            console.log(img.width)
         
        
     }
@@ -459,7 +470,7 @@ function peopleCollision() {
                 photographer1.y = 324.5//(canvas.height-this.height)/2
                 ctx.clearRect(0,0,canvas.width,canvas.height)
                 ctx.fillStyle = "#861c23"
-                photographer1.updatePhotographer()
+                photographer1.updatePhotographer(photographer1.velx,photographer1.vely)
                 ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
                 updateLives()
 
@@ -489,7 +500,7 @@ function flashBulbCollision() {
 
 function startGame() {
     photographer1.rotate(0)
-    photographer1.updatePhotographer()
+    photographer1.updatePhotographer(0,0)
     renderPhotographer()
 
 }
