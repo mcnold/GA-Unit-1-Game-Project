@@ -13,6 +13,7 @@ ctx.fillRect(0,0,canvas.width, canvas.height);
 let score = 0
 let lives = 3
 let wallet = 0
+let gameFinished = false
 /*
 const photographer = document.querySelector('#photographer')
 ctx.drawImage(photographer,1000,300,75,100)
@@ -395,17 +396,21 @@ function renderPhotographer() {
     }
     ctx.clearRect(0,0,canvas.width,canvas.height)
     ctx.fillStyle = "#861c23"
-    if(photographer1.lives > 0) {
+    if(photographer1.lives > 0 && photographer1.wallet < 1000) {
         photographer1.updatePhotographer(photographer1.velx,photographer1.vely)
         ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
         renderFlashbulbs()
         renderStarlets() 
         peopleCollision()
         flashBulbCollision()
-    }else{
+        requestAnimationFrame(renderPhotographer)
+    }else if(photographer1.lives > 0 && photographer1.wallet >= 1000){
+        winGame()
+    }
+    else{
         gameOver()
     }
-        requestAnimationFrame(renderPhotographer)
+    //    requestAnimationFrame(renderPhotographer)
 
 
 }   
@@ -440,14 +445,17 @@ function updateWallet() {
 }
 function gameOver() {
     if(photographer1.lives === 0){
-      photographer1.lives--
-     //   ctx.clearRect(0,0,canvas.width,canvas.height)
+     // photographer1.lives--
+        ctx.clearRect(0,0,canvas.width,canvas.height)
         ctx.fillStyle = "#861c23"
+        gameFinished = true
         let img = new Image()
         img.src="Images/pngaaa.com-763490.png"
         img.onload=()=>{
             console.log("gameover called")
-            ctx.drawImage(img,(canvas.width)/2,(canvas.height)/2, 200, 150)}
+            ctx.drawImage(img,(canvas.width)/2,(canvas.height)/2, 200, 150)
+        //    ctx.drawImage(img,0,0)
+        }
             console.log(img.width)
         
        
@@ -455,12 +463,12 @@ function gameOver() {
 }
 
 function winGame() {
-    if(photographer1.wallet >= 100000){
-       // console.log("Oh Snap! You have won the game. Congratulations!")
+ //   (photographer1.wallet >= 100000){
+    gameFinished = true
+       alert("Oh Snap! You have won the game. Congratulations!")
        // console.log("Press the Start Button to Play Again.")
-    }
-
 }
+
 function peopleCollision() {
     if(starletsArray.length !== 0){
         for(let i = 0; i < starletsArray.length; i++){
@@ -470,7 +478,7 @@ function peopleCollision() {
                 photographer1.y = 324.5//(canvas.height-this.height)/2
                 ctx.clearRect(0,0,canvas.width,canvas.height)
                 ctx.fillStyle = "#861c23"
-                photographer1.updatePhotographer(photographer1.velx,photographer1.vely)
+                photographer1.updatePhotographer(0,0)
                 ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
                 updateLives()
 
@@ -508,12 +516,13 @@ function startGame() {
 
 //console.log(photographer1)
 document.querySelector('#start-game').addEventListener('click',(event)=>{
-        console.log(event)
-       console.log("button has been clicked!")
+    console.log(event)
+    console.log("button has been clicked!")
+    if (gameFinished===true){
+        location.reload()
+    }else {
         startGame()
-
-
-
+    }
 })
 //document.querySelector('#start-game').addEventListener('click', photographer1.img.onload()) Not working
  //startGame()
