@@ -396,7 +396,7 @@ function renderPhotographer() {
     }
     ctx.clearRect(0,0,canvas.width,canvas.height)
     ctx.fillStyle = "#861c23"
-    if(photographer1.lives > 0 && photographer1.wallet < 1000) {
+    if(photographer1.lives > 0 && photographer1.wallet < 100000) {
         photographer1.updatePhotographer(photographer1.velx,photographer1.vely)
         ctx.drawImage(photographer1.img,photographer1.x,photographer1.y,photographer1.width,photographer1.height)
         renderFlashbulbs()
@@ -404,7 +404,7 @@ function renderPhotographer() {
         peopleCollision()
         flashBulbCollision()
         requestAnimationFrame(renderPhotographer)
-    }else if(photographer1.lives > 0 && photographer1.wallet >= 1000){
+    }else if(photographer1.lives > 0 && photographer1.wallet >= 100000){
         winGame()
     }
     else{
