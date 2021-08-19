@@ -453,7 +453,7 @@ function gameOver() {
         img.src="Images/pngaaa.com-763490.png"
         img.onload=()=>{
             console.log("gameover called")
-            ctx.drawImage(img,(canvas.width)/2,(canvas.height)/2, 200, 150)
+            ctx.drawImage(img,(canvas.width)/2-200,(canvas.height)/2-200, 400, 300)
         //    ctx.drawImage(img,0,0)
         }
             console.log(img.width)
@@ -499,7 +499,7 @@ function flashBulbCollision() {
                     ctx.drawImage(starletsArray[j].img,starletsArray[j].x,starletsArray[j].y,starletsArray[j].width,starletsArray[j].height)
                     photographer1.wallet += starletsArray[j].wallet
                     updateWallet()
-                    starletsArray[j].speed = 0.1   //need to debug this, only capturing at set times.
+                    starletsArray[j].speed = 0.3   //need to debug this, only capturing at set times.
                 }
             }
         }
