@@ -464,8 +464,17 @@ function gameOver() {
 
 function winGame() {
  //   (photographer1.wallet >= 100000){
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+    ctx.fillStyle = "#861c23" 
     gameFinished = true
-       alert("Oh Snap! You have won the game. Congratulations!")
+    let img2 = new Image()
+    img2.src ="Images/SeekPng.com_you-win-png_651479.png"
+    img2.onload=()=>{
+        console.log("Win condition met")
+        ctx.drawImage(img2, (canvas.width)/2-250,(canvas.height)/2-250, 500, 200)
+        alert("Oh Snap! You have won the game. Congratulations!")
+    }
+ 
        // console.log("Press the Start Button to Play Again.")
 }
 
